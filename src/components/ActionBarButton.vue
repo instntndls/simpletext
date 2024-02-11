@@ -2,12 +2,16 @@
 const props = defineProps({
   variant: String
 })
-
 </script>
 
 <template>
-  <div :class="variant" @mousedown="variant='Active'" @mouseup="variant='Default'" @mouseleave="variant='Default'">
-    <slot/>
+  <div
+    :class="variant"
+    @mousedown="variant = 'Active'"
+    @mouseup="variant = 'Default'"
+    @mouseleave="variant = 'Default'"
+  >
+    <slot />
   </div>
 </template>
 
@@ -24,7 +28,7 @@ const props = defineProps({
   border-white
   cursor-pointer
   select-none
-  transition duration-[50ms]
+  transition duration-[50ms];
 }
 .Active {
   @apply inline-flex flex-col
@@ -36,6 +40,6 @@ const props = defineProps({
   border-white
   cursor-pointer
   select-none
-  transition duration-[50ms]
+  transition duration-[50ms];
 }
 </style>
