@@ -1,29 +1,26 @@
 <script setup>
 const props = defineProps({
-  variant: String,
-  name: String,
-  date: String
+  variant: String
 })
+
 </script>
 
 <template>
   <div :class="variant" @mousedown="variant='Active'" @mouseup="variant='Default'" @mouseleave="variant='Default'">
-    <p class="text-sm font-semibold text-white">{{ name }}</p>
-    <p class="text-sm text-white">{{ date }}</p>
+    <slot/>
   </div>
 </template>
 
 <style scoped>
 .Default {
   @apply inline-flex flex-col
-  space-y-2.5 items-start
-  justify-start
-  px-4 py-2.5
+  space-y-2.5 items-center
+  justify-center p-2
   bg-white bg-opacity-0
-  rounded w-full
-  hover:border-opacity-30
-  hover:scale-[1.03]
-  border-2 border-opacity-0
+  rounded w-8 h-6
+  hover:border-opacity-50
+  hover:scale-105
+  border-2 border-opacity-30
   border-white
   cursor-pointer
   select-none
@@ -31,11 +28,10 @@ const props = defineProps({
 }
 .Active {
   @apply inline-flex flex-col
-  space-y-2.5 items-start
-  justify-start
-  px-4 py-2.5
-  bg-white bg-opacity-30
-  rounded w-full
+  space-y-2.5 items-center
+  justify-center p-2
+  bg-white bg-opacity-60
+  rounded w-8 h-6
   border-2 border-opacity-0
   border-white
   cursor-pointer
