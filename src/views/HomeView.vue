@@ -1,7 +1,40 @@
 <script setup>
 import Card from "@/components/Card.vue";
 import ActionBarButton from '@/components/ActionBarButton.vue'
+import axios from 'axios'
+import { onMounted, ref } from 'vue'
 
+const note = ref([])
+
+const fetchNotes = async () => {
+  try {
+    const { data } = await axios.get(
+      `https://75ab9d6c19df7404.mokky.dev/notes`
+    );
+    note.value = data
+  } catch (err) {
+    alert(err)
+  }
+}
+const createNote = async (name, content, date) => {
+  try {
+    const { data } = await axios.post(
+      `https://75ab9d6c19df7404.mokky.dev/notes`,
+      {
+        name: name,
+        content: content,
+        date: date
+      }
+    );
+    await fetchNotes()
+  } catch (err) {
+    alert(err)
+  }
+}
+
+onMounted(  () => {
+  fetchNotes()
+})
 </script>
 
 <template>
@@ -11,11 +44,11 @@ import ActionBarButton from '@/components/ActionBarButton.vue'
         <action-bar-button variant="Default" class="opacity-80">
           <img src="/src/assets/trash.svg" alt="Delete">
         </action-bar-button>
-        <action-bar-button variant="Default">
+        <action-bar-button variant="Default" @click="createNote( 'Untitled ' + note.length, '', new Date().toLocaleDateString())">
           <img src="/src/assets/new.svg" alt="Add" class="opacity-70">
         </action-bar-button>
       </div>
-      <Card v-for="i in 5" :key="i" variant="Default" :name="'Untitled ' + i" :date="new Date().toLocaleDateString()"/>
+      <Card v-for="i in note" :key="i" variant="Default" :name="i.name" :date="new Date().toLocaleDateString()"/>
     </div>
     <div class="NoteContent h-full w-full inline-flex flex-col items-start justify-start pb-2.5 bg-black bg-opacity-30">
       <div class="TitleBar h-8 w-full inline-flex items-center justify-end bg-gray-700 bg-opacity-0">
