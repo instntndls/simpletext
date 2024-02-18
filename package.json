@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "host": "vite --host",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
     "format": "prettier --write src/"
@@ -14,6 +15,7 @@
     "@formkit/auto-animate": "^0.8.1",
     "axios": "^1.6.7",
     "vue": "^3.4.15",
+    "vue-loading-overlay": "6.0",
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
