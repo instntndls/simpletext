@@ -68,7 +68,6 @@ provide('updateNote', updateNote)
   >
     <div
       class="NoteList py-2 gap-4 h-full flex flex-col items-center justify-start bg-black bg-opacity-30 border border-gray-700 border-opacity-30 min-w-48 max-w-96 overflow-auto resize-x px-[10px] w-1/3"
-
     >
       <div
         class="ActionBar inline-flex space-x-2.5 items-center justify-between w-full bg-white bg-opacity-0"
@@ -97,8 +96,7 @@ provide('updateNote', updateNote)
       class="NoteContent h-full w-full inline-flex flex-col items-start justify-start bg-black bg-opacity-40"
     >
       <div
-        class="TitleBar h-8 w-full inline-flex items-center justify-end bg-gray-700 bg-opacity-0"
-      >
+        class="TitleBar h-8 w-full inline-flex items-center justify-end bg-gray-700 bg-opacity-0">
         <div class="Draggable bg-white bg-opacity-0 h-8 w-full"></div>
         <div class="Buttons flex w-[96px]">
           <div
@@ -118,14 +116,14 @@ provide('updateNote', updateNote)
           </div>
         </div>
       </div>
-      <div v-if="selectedNote!=null" class="Content h-full w-full">
-        <div class="Title text-white text-3xl pl-6 pt-4 select-none font-['Montserrat'] font-semibold" >{{title}}</div>
-        <textarea type="text" spellcheck="false" v-model="content" @input="updateNote(selectedNote, title, content, createDate()); fetchNotes()" class="w-full h-full bg-transparent border-b-2 border-transparent outline-none text-white p-6 resize-none caret-white font-['Montserrat'] font-light text-xl"/>
-      </div>
-      <div v-else class="h-full w-full flex flex-col items-center justify-center gap-6 pb-64">
+      <div v-if="selectedNote" class="Title text-white text-3xl pl-6 pt-4 select-none font-['Montserrat'] font-semibold">{{title}}</div>
+      <textarea v-if="selectedNote" type="text" spellcheck="false" v-model="content"
+                @input="updateNote(selectedNote, title, content, createDate()); fetchNotes()"
+                class="w-full h-full bg-transparent border-b-2 border-transparent outline-none text-white p-6 resize-none caret-white font-['Montserrat'] font-light text-xl" />
+      <div v-else class="h-full w-full flex flex-col items-center justify-center gap-6 pb-64 text-center">
         <p class="text-8xl font-['Montserrat']">🥺</p>
-        <p class="text-3xl font-['Montserrat'] font-bold text-white">You haven't selected any notes!</p>
-        <p class="text-1xl font-['Montserrat'] font-semibold text-white">Select a note from the list to view it</p>
+        <p class="text-3xl font-['Montserrat'] font-bold text-white">You haven't selected or created any notes!</p>
+        <p class="text-1xl font-['Montserrat'] font-semibold text-white">Create or select a note from the list to view it</p>
       </div>
     </div>
   </div>
