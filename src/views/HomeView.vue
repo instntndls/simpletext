@@ -3,8 +3,9 @@ import Card from '@/components/Card.vue'
 import ActionBarButton from '@/components/ActionBarButton.vue'
 import axios from 'axios'
 import { onMounted, ref, provide  } from 'vue'
+import { v4 as uuidv4 } from 'uuid';
 
-const note = ref([])
+const note = ref(JSON.parse(localStorage.getItem('notes')) || []);
 const selectedNote = ref(null)
 const content = ref('')
 const title = ref('')
@@ -13,50 +14,50 @@ const createDate = () => {
   return new Date().toLocaleDateString() + ' ' + new Date().getHours() + ':' + new Date().getMinutes()
 }
 
-const fetchNotes = async () => {
-  try {
-    const { data } = await axios.get(`https://75ab9d6c19df7404.mokky.dev/notes`)
-    note.value = data
-  } catch (err) {
-    alert(err)
-  }
+const updateLocalStorage = (notes) => {
+  localStorage.setItem('notes', JSON.stringify(notes));
 }
 
-const updateNote = async (id, name, content, date) => {
-  await axios.patch(`https://75ab9d6c19df7404.mokky.dev/notes/`+id , {
-    id: id,
-    name: name,
-    content: content,
-    date: date
-  })
+function fetchNotes() {
+  // No need to fetch from an API, just get the notes from local storage
+  note.value = JSON.parse(localStorage.getItem('notes')) || [];
 }
 
-const createNote = async (name, content, date) => {
-  try {
-    await axios.post(`https://75ab9d6c19df7404.mokky.dev/notes`, {
-      name: name,
-      content: content,
-      date: date
-    })
-    await fetchNotes()
-  } catch (err) {
-    alert(err)
-  }
-}
+const updateNote = (id, name, content, date) => {
+  const notes = JSON.parse(localStorage.getItem('notes')) || [];
+  const updatedNotes = notes.map(note => {
+    if (note.id === id) {
+      return {
+        id,
+        name,
+        content,
+        date
+      };
+    }
+    return note;
+  });
+  updateLocalStorage(updatedNotes);
+};
 
-const deleteNote = async (id) => {
-  try {
-    await axios.delete(`https://75ab9d6c19df7404.mokky.dev/notes/`+id)
-    await fetchNotes()
-    selectedNote.value = null
-  } catch (err) {
-    alert("Select a note to delete it!")
-  }
-}
-
-onMounted(() => {
+const createNote = (name, content, date) => {
+  const notes = JSON.parse(localStorage.getItem('notes')) || [];
+  const newNote = {
+    id: note.value.length > 0 ? note.value[note.value.length - 1].id + 1 : 1,
+    name,
+    content,
+    date
+  };
+  const updatedNotes = [...notes, newNote];
+  updateLocalStorage(updatedNotes);
   fetchNotes()
-})
+};
+
+const deleteNote = (id) => {
+  const notes = JSON.parse(localStorage.getItem('notes')) || [];
+  const updatedNotes = notes.filter(note => note.id !== id);
+  updateLocalStorage(updatedNotes);
+  fetchNotes()
+};
 
 provide('fetchNotes', fetchNotes)
 provide('updateNote', updateNote)
@@ -77,7 +78,7 @@ provide('updateNote', updateNote)
         </action-bar-button>
         <action-bar-button
           variant="Default"
-          @click="createNote('Note ' + note.length, '', createDate())"
+          @click="createNote('Note ' +(note.length + 1), '', createDate())"
         >
           <img src="/src/assets/new.svg" alt="Add" class="opacity-70" />
         </action-bar-button>
@@ -89,7 +90,7 @@ provide('updateNote', updateNote)
         :name="i.name"
         :content="i.content"
         :date="i.date"
-        @click="selectedNote = i.id; content = i.content; title = i.name;"
+        @click="selectedNote = i.id; content = i.content; title = i.name; "
       />
     </div>
     <div

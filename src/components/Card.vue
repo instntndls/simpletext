@@ -41,7 +41,7 @@ const edit = () => {
         class="border-1 px-2 border-gray-300 rounded-md focus:outline-none font-['Montserrat'] font-medium"
         type="text"
         v-model="editText"
-        @keydown.enter="edit(); updateNote(props.id, editText); fetchNotes()"
+        @keydown.enter="edit(); updateNote(props.id, editText, props.content, props.date); fetchNotes()"
       />
       <img
         src="../assets/edit.svg"
