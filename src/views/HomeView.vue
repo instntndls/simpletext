@@ -3,7 +3,6 @@ import Card from '@/components/Card.vue'
 import ActionBarButton from '@/components/ActionBarButton.vue'
 import axios from 'axios'
 import { onMounted, ref, provide  } from 'vue'
-import { v4 as uuidv4 } from 'uuid';
 
 const note = ref(JSON.parse(localStorage.getItem('notes')) || []);
 const selectedNote = ref(null)
