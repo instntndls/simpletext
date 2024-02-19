@@ -20,6 +20,9 @@ const updateLocalStorage = (notes) => {
 function fetchNotes() {
   // No need to fetch from an API, just get the notes from local storage
   note.value = JSON.parse(localStorage.getItem('notes')) || [];
+  if (note.value.length <= 0) {
+    selectedNote.value = null
+  }
 }
 
 const updateNote = (id, name, content, date) => {
@@ -36,6 +39,7 @@ const updateNote = (id, name, content, date) => {
     return note;
   });
   updateLocalStorage(updatedNotes);
+  fetchNotes()
 };
 
 const createNote = (name, content, date) => {
@@ -89,7 +93,7 @@ provide('updateNote', updateNote)
         :name="i.name"
         :content="i.content"
         :date="i.date"
-        @click="selectedNote = i.id; content = i.content; title = i.name; "
+        @click="selectedNote = i.id; content = i.content; title = i.name"
       />
     </div>
     <div
