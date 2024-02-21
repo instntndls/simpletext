@@ -3,6 +3,7 @@ import { inject, ref } from 'vue'
 
 const fetchNotes = inject('fetchNotes')
 const updateNote = inject('updateNote')
+const menuOpened = inject('menuOpened')
 
 const props = defineProps({
   id: Number,
@@ -33,15 +34,16 @@ const edit = () => {
     @mouseleave="
       variant = 'Default'"
     @mouseover="variant = 'Hover'"
+    @click.self="menuOpened = false"
   >
     <div class="flex flex-row justify-between items-center w-full">
-      <p v-if="!editing" class="text-sm font-semibold text-white font-['Montserrat']">{{ name }}</p>
+      <p v-if="!editing" class="text-sm font-semibold text-white font-['Montserrat']" @click="menuOpened = false">{{ name }}</p>
       <input
         v-if="editing"
         class="border-1 px-2 border-gray-300 rounded-md focus:outline-none font-['Montserrat'] font-medium"
         type="text"
         v-model="editText"
-        @keydown.enter="edit(); updateNote(props.id, editText, props.content, props.date); fetchNotes()"
+        @mouseleave="edit(); updateNote(props.id, editText, props.content, props.date); fetchNotes()"
       />
       <img
         src="../assets/edit.svg"
@@ -51,7 +53,7 @@ const edit = () => {
         @click="edit()"
       />
     </div>
-    <p class="text-sm text-white font-['Montserrat']">{{ date }}</p>
+    <p class="text-sm text-white font-['Montserrat']" @click="menuOpened = false">{{ date }}</p>
   </div>
 </template>
 

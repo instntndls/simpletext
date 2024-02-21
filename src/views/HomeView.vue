@@ -67,11 +67,10 @@ const deleteNote = (id) => {
 
 onMounted(() => {
   mobile.value = window.innerWidth < 768;
-
   window.addEventListener('resize', () => {
     if (window.innerWidth < 768) {
       mobile.value = true
-      menuOpened.value = selectedNote !== null;
+      menuOpened.value = false
       console.log(menuOpened.value, mobile.value)
     }
     else {
@@ -84,11 +83,12 @@ onMounted(() => {
 
 provide('fetchNotes', fetchNotes)
 provide('updateNote', updateNote)
+provide('menuOpened', menuOpened)
 </script>
 
 <template>
   <div
-    class="MainSection h-svh w-screen flex items-center justify-center bg-white bg-opacity-30 backdrop-blur-2xl"
+    class="MainSection h-screen w-screen flex items-center justify-center bg-white bg-opacity-30 backdrop-blur-2xl resize-none"
   >
     <div
       :class="menuOpened && !mobile ? 'NoteList' : 'hidden'"
@@ -139,7 +139,7 @@ provide('updateNote', updateNote)
         :name="i.name"
         :content="i.content"
         :date="i.date"
-        @click="selectedNote = i.id; content = i.content; title = i.name; menuOpened = false"
+        @click="selectedNote = i.id; content = i.content; title = i.name"
       />
       <NullPlaceholder v-if="note.length <= 0" class="mt-24"/>
     </div>
@@ -151,11 +151,11 @@ provide('updateNote', updateNote)
           <img class="w-full h-full fill-white" src="/src/assets/arrow-back.svg" alt="Back">
         </div>
         <p class="h-min pl-4">{{title}}</p>
-        <div :class="menuOpened ? 'hidden' : 'BackButton right-4 absolute'" @click="menuOpened = true; deleteNote(selectedNote)">
+        <div :class="menuOpened ? 'hidden' : 'BackButton right-4 absolute size-4'" @click="menuOpened = true; deleteNote(selectedNote)">
           <img class="w-full h-full fill-white" src="/src/assets/trash.svg" alt="Back">
         </div>
       </div>
-      <textarea v-if="selectedNote" type="text" spellcheck="false" v-model="content"
+      <textarea v-if="selectedNote!==null" type="text" spellcheck="false" v-model="content"
                 @input="updateNote(selectedNote, title, content, createDate()); fetchNotes()"
                 class="w-full h-full bg-transparent border-b-2 border-transparent outline-none text-white px-4 resize-none caret-white font-['Montserrat'] font-light text-xl" />
       <NullPlaceholder v-else/>
