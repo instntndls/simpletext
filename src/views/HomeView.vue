@@ -62,6 +62,7 @@ const deleteNote = (id) => {
   const notes = JSON.parse(localStorage.getItem('notes')) || [];
   const updatedNotes = notes.filter(note => note.id !== id);
   updateLocalStorage(updatedNotes);
+  selectedNote.value = null
   fetchNotes()
 };
 
