@@ -27,7 +27,7 @@ const edit = () => {
   <div
     :class="variant"
     @mousedown.self="
-      variant = 'Active'
+      variant = 'Active';
     "
     @mouseup="variant = 'Hover'"
     @mouseleave="

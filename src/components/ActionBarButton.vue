@@ -21,7 +21,7 @@ const props = defineProps({
   space-y-2.5 items-center
   justify-center p-2
   bg-white bg-opacity-0
-  rounded w-8 h-6
+  rounded w-full h-full
   hover:border-opacity-50
   hover:scale-105
   border-2 border-opacity-30
@@ -35,7 +35,7 @@ const props = defineProps({
   space-y-2.5 items-center
   justify-center p-2
   bg-white bg-opacity-60
-  rounded w-8 h-6
+  rounded w-full h-full
   border-2 border-opacity-0
   border-white
   cursor-pointer
