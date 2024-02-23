@@ -69,9 +69,10 @@ const deleteNote = (id) => {
 onMounted(() => {
   mobile.value = window.innerWidth < 768;
   window.addEventListener('resize', () => {
+    mobile.value = window.innerWidth < 768;
     if (window.innerWidth < 768) {
       mobile.value = true
-      menuOpened.value = false
+
       console.log(menuOpened.value, mobile.value)
     }
     else {
@@ -124,6 +125,7 @@ provide('menuOpened', menuOpened)
       />
     </div>
     <div v-if="menuOpened && mobile" class="NoteListMobile">
+      <NullPlaceholder v-if="note.length <= 0" class="mt-24"/>
       <div class="fixed top-0 w-full h-24 p-4 bg-neutral-800">
         <action-bar-button
           variant="Default"
@@ -142,13 +144,12 @@ provide('menuOpened', menuOpened)
         :date="i.date"
         @click="selectedNote = i.id; content = i.content; title = i.name"
       />
-      <NullPlaceholder v-if="note.length <= 0" class="mt-24"/>
     </div>
     <div
       class="NoteContent h-full w-full inline-flex flex-col items-start justify-start bg-black bg-opacity-40 pt-6 pl-2"
     >
       <div v-if="selectedNote" class="flex items-center Title text-white text-3xl select-none font-['Montserrat'] font-semibold pb-6">
-        <div :class="menuOpened ? 'hidden' : 'BackButton'" @click="menuOpened = true">
+        <div :class="menuOpened ? 'hidden' : 'BackButton'" @click="menuOpened = true; selectedNote = null">
           <img class="w-full h-full fill-white" src="/src/assets/arrow-back.svg" alt="Back">
         </div>
         <p class="h-min pl-4">{{title}}</p>
@@ -158,7 +159,8 @@ provide('menuOpened', menuOpened)
       </div>
       <textarea v-if="selectedNote!==null" type="text" spellcheck="false" v-model="content"
                 @input="updateNote(selectedNote, title, content, createDate()); fetchNotes()"
-                class="w-full h-full bg-transparent border-b-2 border-transparent outline-none text-white px-4 resize-none caret-white font-['Montserrat'] font-light text-xl" />
+                class="w-full h-full bg-transparent border-b-2 border-transparent outline-none text-white px-4 resize-none caret-white font-['Montserrat'] font-light text-xl"
+                tabindex="-1"/>
       <NullPlaceholder v-else/>
     </div>
   </div>
@@ -166,14 +168,14 @@ provide('menuOpened', menuOpened)
 
 <style>
 .NoteList {
-  @apply py-2 gap-4 h-full flex flex-col
+  @apply py-2 gap-4 h-screen flex flex-col
   items-center justify-start bg-black
   bg-opacity-30 border border-gray-700
   border-opacity-30 min-w-48 max-w-96
   overflow-auto resize-x px-[10px] w-1/3
 }
 .NoteListMobile {
-  @apply fixed gap-4 px-4 py-6 h-full flex flex-col
+  @apply fixed gap-4 px-4 py-6 h-screen flex flex-col
   items-center justify-start bg-neutral-800
   overflow-auto w-full
 }

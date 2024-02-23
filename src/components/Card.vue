@@ -40,10 +40,14 @@ const edit = () => {
       <p v-if="!editing" class="text-sm font-semibold text-white font-['Montserrat']" @click="menuOpened = false">{{ name }}</p>
       <input
         v-if="editing"
-        class="border-1 px-2 border-gray-300 rounded-md focus:outline-none font-['Montserrat'] font-medium"
+        class="w-3/4 border-1 px-2 border-gray-300 rounded-md focus:outline-none font-['Montserrat'] font-medium"
         type="text"
         v-model="editText"
         @mouseleave="edit(); updateNote(props.id, editText, props.content, props.date); fetchNotes()"
+        @keydown.self.enter="edit(); updateNote(props.id, editText, props.content, props.date); fetchNotes()"
+        autofocus
+        tabindex="-1"
+        maxlength="16"
       />
       <img
         src="../assets/edit.svg"
