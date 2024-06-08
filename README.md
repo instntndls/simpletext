@@ -1,6 +1,14 @@
 # simpletext
 
-This template should help get you started developing with Vue 3 in Vite.
+simpletext - is a straightforward, open-source note-taking application built with Vue.js 3. 
+
+This project aims to provide a clean and user-friendly platform for creating, organizing, and managing notes efficiently.
+
+![alt text](https://github.com/instntndls/simpletext/blob/master/src/assets/screenshots/localhost_5173_simpletext_.png?raw=true)
+
+
+| ![alt text](https://github.com/instntndls/simpletext/blob/master/src/assets/screenshots/localhost_5173_simpletext_(iPhone%20X).png?raw=true)  | ![alt text](https://github.com/instntndls/simpletext/blob/master/src/assets/screenshots/localhost_5173_simpletext_(iPhone%20X)%20(1).png?raw=true)  |
+| ------------- | ------------- |
 
 ## Recommended IDE Setup
 
