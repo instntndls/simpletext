@@ -89,8 +89,9 @@ provide('menuOpened', menuOpened)
 </script>
 
 <template>
+  <div class="w-dvw h-dvh bg-no-repeat bg-[url('/src/assets/background.jpg')]"/>
   <div
-    class="MainSection h-screen w-screen flex items-center justify-center bg-white bg-opacity-30 backdrop-blur-2xl resize-none"
+    class="absolute top-0 left-0 h-dvh w-dvw flex items-center justify-center bg-opacity-30 backdrop-blur-xl resize-none"
   >
     <div
       :class="menuOpened && !mobile ? 'NoteList' : 'hidden'"
@@ -126,7 +127,7 @@ provide('menuOpened', menuOpened)
     </div>
     <div v-if="menuOpened && mobile" class="NoteListMobile">
       <NullPlaceholder v-if="note.length <= 0" class="mt-24"/>
-      <div class="fixed top-0 w-full h-24 p-4 bg-neutral-800">
+      <div class="fixed top-0 w-full h-24 p-4 bg-black">
         <action-bar-button
           variant="Default"
           @click="createNote('Note ' +(note.length + 1), '', createDate()); selectedNote = 1"
@@ -175,8 +176,8 @@ provide('menuOpened', menuOpened)
   overflow-auto resize-x px-[10px] w-1/3
 }
 .NoteListMobile {
-  @apply fixed gap-4 px-4 py-6 h-screen flex flex-col
-  items-center justify-start bg-neutral-800
+  @apply fixed gap-4 px-4 py-6 h-dvh flex flex-col
+  items-center justify-start bg-black
   overflow-auto w-full
 }
 .BackButton {
